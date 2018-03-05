@@ -16,18 +16,15 @@ io.on('connection', (socket)=>{
     console.log('New Client connected');
     
     socket.on('disconnect',()=>{
-    console.log('Client Disconnected');
+        console.log('Client Disconnected');
     })
     
-    socket.emit('newMessage',{
-        from:"gagannagpal68@example.com",
-        text:"Hey",
-        createdAt:"123"
-    });
-    
-    
     socket.on('createMessage',(msg)=>{
-        console.log('New Message At Server By CLient',msg);
+        io.emit('newMessage',{
+            from:msg.from,
+            text:msg.text,
+            createdAt:new Date().getTime()
+        })
     })
 });
 
