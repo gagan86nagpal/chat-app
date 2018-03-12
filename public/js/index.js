@@ -8,6 +8,20 @@ socket.on('disconnect',function(){
 });
 
 socket.on('newMessage',function(msg){
+    var li = jQuery('<li></li>');
+    li.text(`${msg.from}: ${msg.text}`);
+    $('#messages').append(li);
     console.log("Got new Message",msg);
 });
 
+
+$('#message-form').on('submit',function(e){
+    e.preventDefault();
+    socket.emit('createMessage',{
+        from:"user",
+        text:jQuery('[name=message]').val()
+    },function(){
+        
+    })
+    
+})
