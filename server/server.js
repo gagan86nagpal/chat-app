@@ -26,7 +26,7 @@ io.on('connection', (socket)=>{
     // If a client sends a message , it is resent to everyone including sender
     socket.on('createMessage',(msg,callback)=>{
         io.emit('newMessage',generateMessage(msg.from,msg.text));
-        callback('This is from Server'); 
+        callback(); 
     })
     
     socket.on('createLocationMessage',(coords)=>{
