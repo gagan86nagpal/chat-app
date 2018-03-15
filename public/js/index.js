@@ -1,4 +1,29 @@
 var socket =io(); // it is in upper loaded library , it creates the connection as client
+
+
+
+function scrollToBottom(){
+    var messages = $('#messages');
+    var newMessage = messages.children('li:last-child');
+    
+    
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.prev().innerHeight();
+    console.log('clientHeight:',clientHeight);
+    console.log('scrollTop:',scrollTop);
+    console.log('scrollHeight:',scrollHeight);
+    console.log('newMessageHeight:',newMessageHeight);
+    console.log('lastMessageHeight:',lastMessageHeight);
+    //if(clientHeight+scrollTop+newMessageHeight+lastMessageHeight>=scrollHeight){
+    if(scrollTop<=scrollHeight){
+        messages.scrollTop(scrollHeight);
+    }
+    
+}
+
 socket.on('connect',function(){
     console.log('Connected to Server');
 });
@@ -16,7 +41,7 @@ socket.on('newMessage',function(msg){
         createdAt:formattedTime
     });
     $('#messages').append(html);
-
+    scrollToBottom();
 });
 
 
@@ -29,6 +54,7 @@ socket.on('newLocationMessage',function(msg){
         createdAt:formattedTime
     });
     $('#messages').append(html);
+    scrollToBottom();
 //    var li = jQuery('<li> </li>');
 //    var a= jQuery('<a target="_blank">My Current Location</a>');
 //    li.text(`${msg.from} ${formattedTime}: `);
@@ -57,7 +83,7 @@ locationButton.on('click',function(){
     }
     
     locationButton.attr('disabled','disabled').text('Sending location..');
-    navigator.geolocation.getCurrentPosition(function(posiiton){
+    navigator.geolocation.getCurrentPosition(function(posiiton){    
         locationButton.removeAttr('disabled').text('Send location');
         socket.emit('createLocationMessage',{
             latitude:posiiton.coords.latitude,
