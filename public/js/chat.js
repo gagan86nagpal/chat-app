@@ -107,11 +107,12 @@ locationButton.on('click',function(){
     
     locationButton.attr('disabled','disabled').text('Sending location..');
     navigator.geolocation.getCurrentPosition(function(posiiton){    
-        locationButton.removeAttr('disabled').text('Send location');
+        
         socket.emit('createLocationMessage',{
             latitude:posiiton.coords.latitude,
             longitude:posiiton.coords.longitude
-        })
+        });
+        locationButton.removeAttr('disabled').text('Send location');
     },function(){
         locationButton.removeAttr('disabled').text('Send location');
         return alert('Unable to fetch Location');
