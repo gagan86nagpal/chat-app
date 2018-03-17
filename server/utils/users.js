@@ -23,10 +23,6 @@ class Users{
         var namesArray = users.map( (user)=> user.name );
         return namesArray;
     }
-    print(){
-        console.log(this.users);
-    }
-    
 }
 
 
